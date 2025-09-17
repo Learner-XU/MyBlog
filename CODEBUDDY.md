@@ -1,63 +1,84 @@
-# MyBlog - 个人简历与博客网站开发指南
+# MyBlog - 开发快速参考
 
-## 项目概述
-基于Python FastAPI + MySQL的个人简历与博客展示网站，提供简历展示、博客管理、评论系统等功能。
+## 核心开发命令
 
-## 开发环境设置
-
-### 环境要求
-- Python 3.8+
-- MySQL 8.0+
-- Redis (可选，用于缓存)
-
-### 初始化开发环境
+### 环境与依赖
 ```bash
-# 创建虚拟环境
+# 创建虚拟环境并激活
 python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# venv\Scripts\activate   # Windows
+source venv/bin/activate
 
-# 安装依赖
+# 安装所有依赖
 pip install -r requirements.txt
 
-# 数据库迁移
-python -m app.scripts.init_db
-
-# 启动开发服务器
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+# 检查依赖树
+pipdeptree
 ```
 
-### 常用开发命令
+### 开发服务器
 ```bash
-# 运行所有测试
+# 开发模式（自动重载）
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+
+# 生产模式
+uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+# 指定工作进程数
+uvicorn app.main:app --workers 4 --host 0.0.0.0 --port 8000
+```
+
+### 测试与质量
+```bash
+# 运行全部测试
 pytest tests/ -v
 
 # 运行特定测试文件
 pytest tests/test_blog.py -v
 
-# 测试特定功能
-pytest -k "test_blog" -v
+# 运行特定测试函数
+pytest tests/test_blog.py::test_create_blog_post -v
 
-# 生成测试覆盖率报告
-pytest --cov=app tests/
+# 测试覆盖率
+pytest --cov=app --cov-report=html tests/
 
-# 代码格式化
-black app/ tests/
-isort app/ tests/
-
-# 代码检查
-flake8 app/ tests/
+# 代码质量检查
+black app/ tests/ --check
+isort app/ tests/ --check-only
+flake8 app/
 mypy app/
+```
 
-# 数据库操作
-python -m app.scripts.create_admin  # 创建管理员用户
-python -m app.scripts.seed_data     # 初始化测试数据
+### 数据库操作
+```bash
+# 数据库初始化（会删除现有数据）
+python -m app.scripts.init_db
 
-# 启动所有服务（Docker）
+# 创建管理员用户
+python -m app.scripts.create_admin
+
+# 生成测试数据
+python -m app.scripts.seed_data
+
+# 数据库迁移检查
+python -c "from app.database import engine; from app.models import Base; Base.metadata.create_all(engine)"
+```
+
+### Docker 操作
+```bash
+# 启动所有服务
 docker-compose up -d
 
-# 查看日志
+# 停止服务
+docker-compose down
+
+# 重建并启动
+docker-compose up -d --build
+
+# 查看服务日志
 docker-compose logs -f app
+
+# 进入容器shell
+docker-compose exec app bash
 ```
 
 ## 项目架构

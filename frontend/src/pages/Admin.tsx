@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
@@ -12,109 +11,70 @@ const Admin = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">管理后台</h1>
-        <p className="text-xl text-gray-600">欢迎回来, {user.username}!</p>
-      </div>
-
-      <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8">
-        <div className="flex">
-          <div className="ml-3">
-            <p className="text-sm text-yellow-700">
-              管理后台功能正在开发中，敬请期待...
-            </p>
-          </div>
-        </div>
-      </div>
-
+      <h1 className="text-3xl font-bold text-gray-900 mb-6">管理后台</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {/* 数据统计卡片 */}
+        {/* 统计卡片 */}
         <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="flex items-center">
-            <div className="flex-shrink-0">
-              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                <span className="text-white text-sm font-bold">📝</span>
-              </div>
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-500">文章总数</p>
-              <p className="text-2xl font-bold text-gray-900">--</p>
-            </div>
-          </div>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">文章总数</h3>
+          <p className="text-3xl font-bold text-blue-600">24</p>
         </div>
-
         <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="flex items-center">
-            <div className="flex-shrink-0">
-              <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                <span className="text-white text-sm font-bold">💬</span>
-              </div>
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-500">待审评论</p>
-              <p className="text-2xl font-bold text-gray-900">--</p>
-            </div>
-          </div>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">待审核评论</h3>
+          <p className="text-3xl font-bold text-orange-600">5</p>
         </div>
-
         <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="flex items-center">
-            <div className="flex-shrink-0">
-              <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
-                <span className="text-white text-sm font-bold">📧</span>
-              </div>
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-500">未读留言</p>
-              <p className="text-2xl font-bold text-gray-900">--</p>
-            </div>
-          </div>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">用户数量</h3>
+          <p className="text-3xl font-bold text-green-600">1</p>
         </div>
-
         <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="flex items-center">
-            <div className="flex-shrink-0">
-              <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
-                <span className="text-white text-sm font-bold">👁️</span>
-              </div>
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-500">总访问量</p>
-              <p className="text-2xl font-bold text-gray-900">--</p>
-            </div>
-          </div>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">访问量</h3>
+          <p className="text-3xl font-bold text-purple-600">1,234</p>
         </div>
       </div>
 
-      {/* 功能模块 */}
-      <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-lg font-semibold mb-4">内容管理</h3>
-          <div className="space-y-3">
-            <button className="w-full text-left px-4 py-2 bg-gray-100 rounded hover:bg-gray-200">
-              文章管理
-            </button>
-            <button className="w-full text-left px-4 py-2 bg-gray-100 rounded hover:bg-gray-200">
-              分类管理
-            </button>
-            <button className="w-full text-left px-4 py-2 bg-gray-100 rounded hover:bg-gray-200">
-              评论审核
-            </button>
-          </div>
+      {/* 快速操作 */}
+      <div className="mt-8 bg-white rounded-lg shadow-md p-6">
+        <h2 className="text-xl font-semibold text-gray-900 mb-4">快速操作</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
+            新建文章
+          </button>
+          <button className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors">
+            管理分类
+          </button>
+          <button className="bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 transition-colors">
+            审核评论
+          </button>
+          <button className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition-colors">
+            查看统计
+          </button>
         </div>
+      </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-lg font-semibold mb-4">系统管理</h3>
-          <div className="space-y-3">
-            <button className="w-full text-left px-4 py-2 bg-gray-100 rounded hover:bg-gray-200">
-              简历管理
-            </button>
-            <button className="w-full text-left px-4 py-2 bg-gray-100 rounded hover:bg-gray-200">
-              留言管理
-            </button>
-            <button className="w-full text-left px-4 py-2 bg-gray-100 rounded hover:bg-gray-200">
-              用户管理
-            </button>
+      {/* 最近活动 */}
+      <div className="mt-8 bg-white rounded-lg shadow-md p-6">
+        <h2 className="text-xl font-semibold text-gray-900 mb-4">最近活动</h2>
+        <div className="space-y-3">
+          <div className="flex items-center justify-between py-2 border-b">
+            <div>
+              <p className="text-sm text-gray-600">新文章发布</p>
+              <p className="text-xs text-gray-500">《深入理解React Hooks》</p>
+            </div>
+            <span className="text-xs text-gray-500">2小时前</span>
+          </div>
+          <div className="flex items-center justify-between py-2 border-b">
+            <div>
+              <p className="text-sm text-gray-600">新评论待审核</p>
+              <p className="text-xs text-gray-500">用户: 张三</p>
+            </div>
+            <span className="text-xs text-gray-500">1小时前</span>
+          </div>
+          <div className="flex items-center justify-between py-2">
+            <div>
+              <p className="text-sm text-gray-600">系统更新</p>
+              <p className="text-xs text-gray-500">版本升级至v1.2.0</p>
+            </div>
+            <span className="text-xs text-gray-500">昨天</span>
           </div>
         </div>
       </div>

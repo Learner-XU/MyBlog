@@ -1,8 +1,8 @@
 import axios from 'axios';
 import type { 
   User, UserLogin, Token, 
-  BlogPost, BlogPostList, BlogPostCreate, BlogCategory,
-  Comment, CommentCreate, ResumeData, ResumeSection,
+  BlogPost, BlogPostList, BlogCategory,
+  Comment, ResumeData, ResumeSection,
   Message, PaginatedResponse 
 } from '../types';
 
@@ -66,10 +66,10 @@ export const blogApi = {
   getPost: (slug: string): Promise<{ data: BlogPost }> =>
     api.get(`/blog/posts/${slug}`),
 
-  createPost: (post: BlogPostCreate): Promise<{ data: BlogPost }> =>
+  createPost: (post: Partial<BlogPost>): Promise<{ data: BlogPost }> =>
     api.post('/blog/posts', post),
 
-  updatePost: (id: number, post: Partial<BlogPostCreate>): Promise<{ data: BlogPost }> =>
+  updatePost: (id: number, post: Partial<BlogPost>): Promise<{ data: BlogPost }> =>
     api.put(`/blog/posts/${id}`, post),
 
   deletePost: (id: number): Promise<void> =>
@@ -87,7 +87,7 @@ export const blogApi = {
   deleteCategory: (id: number): Promise<void> =>
     api.delete(`/blog/categories/${id}`),
 
-  createComment: (comment: CommentCreate): Promise<{ data: Comment }> =>
+  createComment: (comment: Partial<Comment>): Promise<{ data: Comment }> =>
     api.post('/blog/comments', comment),
 
   getPostComments: (postId: number): Promise<{ data: Comment[] }> =>

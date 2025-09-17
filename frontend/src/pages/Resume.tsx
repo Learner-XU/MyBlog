@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { resumeApi } from '../services/api';
-import type { ResumeData, SectionType } from '../types';
+import type { ResumeData } from '../types';
+import './Resume.css';
 
 const Resume = () => {
   const [resume, setResume] = useState<ResumeData | null>(null);
-  const [activeTab, setActiveTab] = useState<SectionType>(SectionType.personal_info);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -24,29 +24,21 @@ const Resume = () => {
     }
   };
 
-  const sectionTitles = {
-    [SectionType.personal_info]: '个人信息',
-    [SectionType.education]: '教育背景',
-    [SectionType.experience]: '工作经历',
-    [SectionType.skills]: '技术技能',
-    [SectionType.projects]: '项目经验'
-  };
-
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-        </div>
+      <div className="resume-loading">
+        <div className="resume-spinner"></div>
+        <p>正在加载简历...</p>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="bg-red-50 border border-red-200 text-red-600 p-4 rounded">
-          {error}
+      <div className="resume-container">
+        <div className="resume-error">
+          <h2>⚠️</h2>
+          <p>{error}</p>
         </div>
       </div>
     );
@@ -54,96 +46,121 @@ const Resume = () => {
 
   if (!resume) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="text-center text-gray-500">暂无简历内容</div>
+      <div className="resume-container">
+        <div className="resume-empty">
+          <h2>📄</h2>
+          <p>暂无简历内容</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
-      {/* 头部 */}
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">个人简历</h1>
-        <p className="text-xl text-gray-600">专业技能与工作经历</p>
-      </div>
+    <div className="resume">
+      {/* Header */}
+      <header className="resume-header">
+        <div className="resume-header-content">
+          <h1 className="resume-name">徐海涛</h1>
+          <p className="resume-title">C++后端开发工程师</p>
+          <p className="resume-summary">专注于金融科技领域的高性能系统开发</p>
+        </div>
+      </header>
 
-      {/* 标签页导航 */}
-      <div className="border-b border-gray-200 mb-8">
-        <nav className="flex space-x-8">
-          {Object.values(SectionType).map((sectionType) => (
-            <button
-              key={sectionType}
-              onClick={() => setActiveTab(sectionType)}
-              className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === sectionType
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              {sectionTitles[sectionType]}
-            </button>
-          ))}
-        </nav>
-      </div>
-
-      {/* 内容区域 */}
-      <div className="bg-white rounded-lg shadow-lg p-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">
-          {sectionTitles[activeTab]}
-        </h2>
-
-        <div className="space-y-6">
-          {resume[activeTab]?.map((section) => (
-            <div key={section.id} className="border-l-4 border-blue-500 pl-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                {section.title}
-              </h3>
-              {section.content && (
-                <div className="text-gray-700 leading-relaxed whitespace-pre-line">
-                  {section.content}
+      <div className="resume-content">
+        {/* Main Content */}
+        <main className="resume-main">
+          {/* Experience */}
+          <section className="resume-section">
+            <h2 className="resume-section-title">💼 工作经历</h2>
+            <div className="resume-timeline">
+              {resume.experience?.map((exp) => (
+                <div key={exp.id} className="resume-timeline-item">
+                  <div className="resume-timeline-marker"></div>
+                  <div className="resume-timeline-content">
+                    <h3 className="resume-timeline-title">{exp.title}</h3>
+                    {exp.content && (
+                      <div className="resume-timeline-description">
+                        {exp.content.split('\n').map((line, i) => (
+                          <p key={i}>{line}</p>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              )}
+              ))}
             </div>
-          ))}
+          </section>
 
-          {(!resume[activeTab] || resume[activeTab].length === 0) && (
-            <div className="text-center text-gray-500 py-8">
-              暂无{sectionTitles[activeTab]}内容
+          {/* Projects */}
+          <section className="resume-section">
+            <h2 className="resume-section-title">🚀 项目经验</h2>
+            <div className="resume-grid">
+              {resume.projects?.map((project) => (
+                <div key={project.id} className="resume-card">
+                  <h3 className="resume-card-title">{project.title}</h3>
+                  {project.content && (
+                    <div className="resume-card-content">
+                      {project.content.split('\n').map((line, i) => (
+                        <p key={i}>{line}</p>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
-          )}
-        </div>
-      </div>
+          </section>
+        </main>
 
-      {/* 联系信息 */}
-      <div className="mt-12 bg-blue-50 rounded-lg p-6">
-        <h3 className="text-xl font-semibold text-blue-900 mb-4">联系我</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-blue-800">
-          {resume.personal_info?.map((info) => (
-            <div key={info.id} className="flex items-center">
-              <span className="text-blue-600 mr-2">•</span>
-              {info.content}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* 技能概览 */}
-      {resume.skills && resume.skills.length > 0 && (
-        <div className="mt-8">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">技能概览</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {resume.skills.map((skill) => (
-              <div key={skill.id} className="bg-gray-50 rounded-lg p-4">
-                <h4 className="font-semibold text-gray-900 mb-2">{skill.title}</h4>
-                {skill.content && (
-                  <p className="text-gray-600 text-sm">{skill.content}</p>
-                )}
+        {/* Sidebar */}
+        <aside className="resume-sidebar">
+          {/* Contact Info */}
+          <section className="resume-sidebar-section">
+            <h3 className="resume-sidebar-title">📧 联系方式</h3>
+            {resume.personal_info?.map((info) => (
+              <div key={info.id} className="resume-contact-info">
+                {info.content && info.content.split('\n').map((line, i) => (
+                  <p key={i} className="resume-contact-line">{line}</p>
+                ))}
               </div>
             ))}
-          </div>
-        </div>
-      )}
+          </section>
+
+          {/* Skills */}
+          <section className="resume-sidebar-section">
+            <h3 className="resume-sidebar-title">🛠️ 技术技能</h3>
+            <div className="resume-skills">
+              {resume.skills?.map((skill) => (
+                <div key={skill.id} className="resume-skill-item">
+                  <h4 className="resume-skill-title">{skill.title}</h4>
+                  {skill.content && (
+                    <p className="resume-skill-description">{skill.content}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Education */}
+          <section className="resume-sidebar-section">
+            <h3 className="resume-sidebar-title">🎓 教育背景</h3>
+            <div className="resume-education">
+              {resume.education?.map((edu) => (
+                <div key={edu.id} className="resume-education-item">
+                  <h4 className="resume-education-title">{edu.title}</h4>
+                  {edu.content && (
+                    <p className="resume-education-description">{edu.content}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+        </aside>
+      </div>
+
+      {/* Footer */}
+      <footer className="resume-footer">
+        <p>© 2024 徐海涛 · 专业简历</p>
+      </footer>
     </div>
   );
 };
