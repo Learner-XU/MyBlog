@@ -3,11 +3,13 @@ from sqlalchemy.orm import Session
 from typing import List
 from app.database import get_db
 from app.core.security import get_current_active_user
-from app.models.resume import ResumeSection, SectionType
+from app.models.resume import ResumeSection, SectionType, PersonalInfo
 from app.schemas.resume import (
     ResumeSection as ResumeSectionSchema, 
     ResumeSectionCreate, ResumeSectionUpdate, 
-    ResumeData
+    ResumeData,
+    PersonalInfo as PersonalInfoSchema,
+    PersonalInfoCreate, PersonalInfoUpdate
 )
 
 router = APIRouter(prefix="/api/resume", tags=["简历"])
@@ -16,14 +18,21 @@ router = APIRouter(prefix="/api/resume", tags=["简历"])
 @router.get("", response_model=ResumeData)
 def read_resume(db: Session = Depends(get_db)):
     """获取完整简历信息"""
+    # 获取个人信息
+    personal_info = db.query(PersonalInfo)\
+                     .filter(PersonalInfo.is_visible == True)\
+                     .first()
+    
+    # 获取其他章节信息（排除个人信息类型）
     sections = db.query(ResumeSection)\
                 .filter(ResumeSection.is_visible == True)\
+                .filter(ResumeSection.section_type != SectionType.personal_info)\
                 .order_by(ResumeSection.order_index)\
                 .all()
     
     # 按类型分组
     resume_data = {
-        "personal_info": [],
+        "personal_info": personal_info,
         "education": [],
         "experience": [],
         "skills": [],
@@ -103,3 +112,74 @@ def delete_resume_section(
     db.commit()
     
     return {"message": "章节删除成功"}
+
+
+# 个人信息相关API
+@router.get("/personal-info", response_model=PersonalInfoSchema)
+def read_personal_info(db: Session = Depends(get_db)):
+    """获取个人信息"""
+    personal_info = db.query(PersonalInfo)\
+                     .filter(PersonalInfo.is_visible == True)\
+                     .first()
+    
+    if not personal_info:
+        raise HTTPException(status_code=404, detail="个人信息未找到")
+    
+    return personal_info
+
+
+@router.post("/personal-info", response_model=PersonalInfoSchema)
+def create_personal_info(
+    personal_info: PersonalInfoCreate,
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_active_user)
+):
+    """创建个人信息"""
+    # 检查是否已存在个人信息
+    existing_info = db.query(PersonalInfo).first()
+    if existing_info:
+        raise HTTPException(status_code=400, detail="个人信息已存在，请使用更新接口")
+    
+    db_personal_info = PersonalInfo(**personal_info.model_dump())
+    db.add(db_personal_info)
+    db.commit()
+    db.refresh(db_personal_info)
+    
+    return db_personal_info
+
+
+@router.put("/personal-info", response_model=PersonalInfoSchema)
+def update_personal_info(
+    personal_info_update: PersonalInfoUpdate,
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_active_user)
+):
+    """更新个人信息"""
+    db_personal_info = db.query(PersonalInfo).first()
+    if not db_personal_info:
+        raise HTTPException(status_code=404, detail="个人信息未找到")
+    
+    for key, value in personal_info_update.model_dump(exclude_unset=True).items():
+        if value is not None:
+            setattr(db_personal_info, key, value)
+    
+    db.commit()
+    db.refresh(db_personal_info)
+    
+    return db_personal_info
+
+
+@router.delete("/personal-info")
+def delete_personal_info(
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_active_user)
+):
+    """删除个人信息"""
+    db_personal_info = db.query(PersonalInfo).first()
+    if not db_personal_info:
+        raise HTTPException(status_code=404, detail="个人信息未找到")
+    
+    db.delete(db_personal_info)
+    db.commit()
+    
+    return {"message": "个人信息删除成功"}

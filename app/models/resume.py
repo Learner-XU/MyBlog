@@ -12,6 +12,27 @@ class SectionType(enum.Enum):
     projects = "projects"
 
 
+class PersonalInfo(Base):
+    __tablename__ = "personal_info"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(100), nullable=False)
+    email = Column(String(255), nullable=True)
+    telephone = Column(String(50), nullable=True)
+    address = Column(String(500), nullable=True)
+    avatar_url = Column(String(500), nullable=True)
+    bio = Column(Text, nullable=True)
+    website = Column(String(255), nullable=True)
+    github = Column(String(255), nullable=True)
+    linkedin = Column(String(255), nullable=True)
+    is_visible = Column(Boolean, default=True)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
+
+    def __repr__(self):
+        return f"<PersonalInfo(id={self.id}, name='{self.name}')>"
+
+
 class ResumeSection(Base):
     __tablename__ = "resume_sections"
 

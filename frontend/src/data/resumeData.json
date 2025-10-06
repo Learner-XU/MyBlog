@@ -8,7 +8,22 @@
       "is_visible": true
     }
   ],
-  "education": [],
+  "education": [
+    {
+      "id": 1,
+      "title": "硕士学历",
+      "content": "计算机科学与技术 硕士学位\n2020年9月 - 2023年6月\n某某大学",
+      "order_index": 1,
+      "is_visible": true
+    },
+    {
+      "id": 2,
+      "title": "本科学历", 
+      "content": "软件工程 学士学位\n2016年9月 - 2020年6月\n某某大学",
+      "order_index": 2,
+      "is_visible": true
+    }
+  ],
   "experience": [],
   "skills": [
     {

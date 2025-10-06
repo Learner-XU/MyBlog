@@ -129,13 +129,11 @@ const Home = () => {
             <h2 className="text-3xl font-bold text-center mb-12">关于我</h2>
             
             <div className="max-w-2xl mx-auto text-center">
-              {resume.personal_info.map((section) => (
-                <div key={section.id} className="prose prose-lg mx-auto">
-                  <p className="text-gray-700 leading-relaxed">
-                    {section.content}
-                  </p>
-                </div>
-              ))}
+              <div className="prose prose-lg mx-auto">
+                <p className="text-gray-700 leading-relaxed">
+                  {resume.personal_info.bio || '欢迎来到我的个人博客'}
+                </p>
+              </div>
               
               <div className="mt-8">
                 <Link

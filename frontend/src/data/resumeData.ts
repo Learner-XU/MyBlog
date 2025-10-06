@@ -3,25 +3,37 @@ import { ResumeData, SectionType } from '../types';
 const now = new Date().toISOString();
 
 export const resumeData: ResumeData = {
-  personal_info: [
-    {
-      id: 1,
-      section_type: SectionType.personal_info,
-      title: '个人信息',
-      content: '姓名：徐海涛\n邮箱：xuhaitao@example.com\n电话：138-****-****\n地址：上海市浦东新区',
-      order_index: 1,
-      is_visible: true,
-      created_at: now,
-      updated_at: now
-    }
-  ],
+  personal_info: {
+    id: 1,
+    name: '徐海涛',
+    email: 'xuhaitao@example.com',
+    telephone: '138-****-****',
+    address: '上海市浦东新区',
+    bio: '专注于金融科技领域的高性能系统开发，具有丰富的C++后端开发经验',
+    website: 'https://xuhaitao.dev',
+    github: 'https://github.com/xuhaitao',
+    linkedin: 'https://linkedin.com/in/xuhaitao',
+    is_visible: true,
+    created_at: now,
+    updated_at: now
+  },
   education: [
     {
       id: 2,
       section_type: SectionType.education,
-      title: '北京大学 - 计算机科学与技术',
-      content: '2015-2019 本科\n主修课程：算法设计、数据结构、操作系统、计算机网络',
+      title: '2019-2022 清华大学 软件工程 硕士',
+      content: '研究方向：人工智能与机器学习\n主要研究：深度学习算法优化、自然语言处理',
       order_index: 1,
+      is_visible: true,
+      created_at: now,
+      updated_at: now
+    },
+    {
+      id: 13,
+      section_type: SectionType.education,
+      title: '2015-2019 北京大学 计算机科学与技术 本科',
+      content: '主修课程：算法设计、数据结构、操作系统、计算机网络',
+      order_index: 2,
       is_visible: true,
       created_at: now,
       updated_at: now

@@ -95,6 +95,22 @@ export enum SectionType {
   projects = "projects"
 }
 
+export interface PersonalInfo {
+  id: number;
+  name: string;
+  email?: string;
+  telephone?: string;
+  address?: string;
+  avatar_url?: string;
+  bio?: string;
+  website?: string;
+  github?: string;
+  linkedin?: string;
+  is_visible: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface ResumeSection {
   id: number;
   section_type: SectionType;
@@ -107,7 +123,7 @@ export interface ResumeSection {
 }
 
 export interface ResumeData {
-  personal_info: ResumeSection[];
+  personal_info?: PersonalInfo;
   education: ResumeSection[];
   experience: ResumeSection[];
   skills: ResumeSection[];

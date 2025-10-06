@@ -8,7 +8,7 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
 from app.database import create_tables, engine
-from app.models import *
+from app.models import User, PersonalInfo, ResumeSection, SectionType, BlogCategory, BlogPost, Comment, Message
 from sqlalchemy.orm import sessionmaker
 from app.core.security import get_password_hash
 
@@ -40,42 +40,62 @@ def create_initial_data():
             db.commit()
             print(f"管理员用户创建成功: admin/admin123")
         
-        # 创建简历初始数据
-        print("正在创建默认简历数据...")
+        # 创建个人信息初始数据
+        print("正在创建默认个人信息...")
         
-        # 检查是否已有简历数据
+        # 检查是否已有个人信息
+        existing_personal_info = db.query(PersonalInfo).count()
+        if existing_personal_info == 0:
+            personal_info = PersonalInfo(
+                name="张三",
+                email="zhangsan@example.com",
+                telephone="138-****-****",
+                address="北京市朝阳区",
+                bio="全栈开发工程师，专注于Web应用开发",
+                website="https://example.com",
+                github="https://github.com/zhangsan",
+                linkedin="https://linkedin.com/in/zhangsan"
+            )
+            db.add(personal_info)
+            db.commit()
+            print("个人信息创建成功")
+        
+        # 创建简历章节初始数据
+        print("正在创建默认简历章节数据...")
+        
+        # 检查是否已有简历章节数据
         existing_sections = db.query(ResumeSection).count()
         if existing_sections == 0:
             resume_sections = [
                 ResumeSection(
-                    section_type=SectionType.personal_info,
-                    title="个人信息",
-                    content="姓名：张三\\n邮箱：zhangsan@example.com\\n电话：138-****-****\\n地址：北京市朝阳区",
+                    section_type=SectionType.education,
+                    title="硕士学历",
+                    content="计算机科学与技术 硕士学位\n2019年9月 - 2022年6月\n清华大学",
                     order_index=1
                 ),
                 ResumeSection(
                     section_type=SectionType.education,
-                    title="教育背景",
-                    content="2015-2019 北京大学 计算机科学与技术 本科\\n2019-2022 清华大学 软件工程 硕士",
+                    title="本科学历",
+                    content="软件工程 学士学位\n2015年9月 - 2019年6月\n北京大学",
                     order_index=2
                 ),
                 ResumeSection(
                     section_type=SectionType.experience,
                     title="工作经历",
                     content="2022-至今 某某科技公司 高级软件工程师\\n2020-2022 某某互联网公司 后端开发工程师",
-                    order_index=3
+                    order_index=4
                 ),
                 ResumeSection(
                     section_type=SectionType.skills,
                     title="技术技能",
                     content="Python, FastAPI, Django\\nMySQL, Redis, MongoDB\\nDocker, Kubernetes, AWS",
-                    order_index=4
+                    order_index=5
                 ),
                 ResumeSection(
                     section_type=SectionType.projects,
                     title="项目经验",
                     content="1. 电商平台后端开发\\n2. 微服务架构设计\\n3. 自动化部署系统",
-                    order_index=5
+                    order_index=6
                 )
             ]
             

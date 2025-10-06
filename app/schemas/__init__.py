@@ -4,7 +4,10 @@ from .blog import (
     BlogPost, BlogPostList, BlogPostCreate, BlogPostUpdate, BlogPostWithComments,
     Comment, CommentCreate, PaginatedResponse
 )
-from .resume import ResumeSection, ResumeSectionCreate, ResumeSectionUpdate, ResumeData
+from .resume import (
+    ResumeSection, ResumeSectionCreate, ResumeSectionUpdate, ResumeData,
+    PersonalInfo, PersonalInfoCreate, PersonalInfoUpdate
+)
 from .message import Message, MessageCreate
 
 __all__ = [
@@ -13,5 +16,6 @@ __all__ = [
     "BlogPost", "BlogPostList", "BlogPostCreate", "BlogPostUpdate", "BlogPostWithComments",
     "Comment", "CommentCreate", "PaginatedResponse",
     "ResumeSection", "ResumeSectionCreate", "ResumeSectionUpdate", "ResumeData",
+    "PersonalInfo", "PersonalInfoCreate", "PersonalInfoUpdate",
     "Message", "MessageCreate"
 ]

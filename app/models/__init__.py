@@ -1,6 +1,6 @@
 from .user import User
 from .blog import BlogCategory, BlogPost, Comment
-from .resume import ResumeSection, SectionType
+from .resume import ResumeSection, SectionType, PersonalInfo
 from .message import Message
 
 __all__ = [
@@ -10,5 +10,6 @@ __all__ = [
     "Comment",
     "ResumeSection", 
     "SectionType",
+    "PersonalInfo",
     "Message"
 ]
