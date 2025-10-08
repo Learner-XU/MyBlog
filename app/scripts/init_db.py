@@ -8,7 +8,7 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
 from app.database import create_tables, engine
-from app.models import User, PersonalInfo, ResumeSection, SectionType, BlogCategory, BlogPost, Comment, Message
+from app.models import User, PersonalInfo, Experience, ResumeSection, SectionType, Education, BlogCategory, BlogPost, Comment, Message
 from sqlalchemy.orm import sessionmaker
 from app.core.security import get_password_hash
 
@@ -37,8 +37,8 @@ def create_initial_data():
                 password_hash=get_password_hash("admin123")
             )
             db.add(admin_user)
-            db.commit()
             print(f"管理员用户创建成功: admin/admin123")
+            print("警告：请首次登录后立即修改密码！")
         
         # 创建个人信息初始数据
         print("正在创建默认个人信息...")
@@ -47,18 +47,71 @@ def create_initial_data():
         existing_personal_info = db.query(PersonalInfo).count()
         if existing_personal_info == 0:
             personal_info = PersonalInfo(
-                name="张三",
-                email="zhangsan@example.com",
-                telephone="138-****-****",
-                address="北京市朝阳区",
-                bio="全栈开发工程师，专注于Web应用开发",
-                website="https://example.com",
-                github="https://github.com/zhangsan",
-                linkedin="https://linkedin.com/in/zhangsan"
+                name="徐海涛",
+                email="xht.pub@gmail.com",
+                telephone="176-0218-7958",
+                address="上海市闵行区",
+                bio="c++后端开发工程师",
+                #website="https://example.com",
+                github="https://github.com/Learner-XU/",
+                #linkedin="https://linkedin.com/in/zhangsan"
             )
             db.add(personal_info)
             db.commit()
             print("个人信息创建成功")
+        
+        # 创建教育背景初始数据
+        print("正在创建默认教育背景数据...")
+        
+        # 检查是否已有教育背景数据
+        existing_education = db.query(Education).count()
+        if existing_education == 0:
+            education_records = [
+                Education(
+                    school_name="华东理工大学",
+                    degree="硕士",
+                    major="机械工程",
+                    start_date="2018-09",
+                    end_date="2021-06",
+                    #gpa="3.8/4.0",
+                    description="荣誉/奖项：校级一等奖学金、校级优秀毕业生、“华为杯”第十六届中国研究生数学建模竞赛国家二等奖等",
+                    order_index=1
+                ),
+                Education(
+                    school_name="南京工程学院",
+                    degree="学士",
+                    major="机械设计制造及其自动化",
+                    start_date="2012-09",
+                    end_date="2016-06",
+                    #gpa="3.7/4.0",
+                    description="荣誉/奖项：优秀学生（2次）、优秀学生干部（2次）、校级一等奖学金（3次）",
+                    order_index=2
+                )
+            ]
+            
+            db.add_all(education_records)
+            print("教育背景数据创建完成!")
+        
+        # 创建工作经历初始数据
+        print("正在创建默认工作经历数据...")
+        
+        # 检查是否已有工作经历数据
+        existing_experience = db.query(Experience).count()
+        if existing_experience == 0:
+            experience_records = [
+                Experience(
+                    company="万得信息技术股份有限公司",
+                    position="高级后端开发工程师",
+                    start_date="2021-06",
+                    #end_date="2025-10",
+                    description="负责商品、衍生品实时行情衍生指标计算服务的架构设计与开发、优化系统性能、主导团队技术分享与新人培训",
+                    is_visible=True,
+                    order_index=1
+                )
+            ]
+            
+            db.add_all(experience_records)
+            print("工作经历数据创建完成!")
         
         # 创建简历章节初始数据
         print("正在创建默认简历章节数据...")
@@ -68,34 +121,16 @@ def create_initial_data():
         if existing_sections == 0:
             resume_sections = [
                 ResumeSection(
-                    section_type=SectionType.education,
-                    title="硕士学历",
-                    content="计算机科学与技术 硕士学位\n2019年9月 - 2022年6月\n清华大学",
-                    order_index=1
-                ),
-                ResumeSection(
-                    section_type=SectionType.education,
-                    title="本科学历",
-                    content="软件工程 学士学位\n2015年9月 - 2019年6月\n北京大学",
-                    order_index=2
-                ),
-                ResumeSection(
-                    section_type=SectionType.experience,
-                    title="工作经历",
-                    content="2022-至今 某某科技公司 高级软件工程师\\n2020-2022 某某互联网公司 后端开发工程师",
-                    order_index=4
-                ),
-                ResumeSection(
                     section_type=SectionType.skills,
                     title="技术技能",
                     content="Python, FastAPI, Django\\nMySQL, Redis, MongoDB\\nDocker, Kubernetes, AWS",
-                    order_index=5
+                    order_index=4
                 ),
                 ResumeSection(
                     section_type=SectionType.projects,
                     title="项目经验",
                     content="1. 电商平台后端开发\\n2. 微服务架构设计\\n3. 自动化部署系统",
-                    order_index=6
+                    order_index=5
                 )
             ]
             

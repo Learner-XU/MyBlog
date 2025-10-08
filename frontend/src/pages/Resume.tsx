@@ -182,14 +182,28 @@ const Resume = () => {
             </h2>
             <div className="resume-education-main">
               {resume.education
+                ?.filter(edu => edu.is_visible)
                 ?.sort((a, b) => a.order_index - b.order_index)
                 .map((edu) => (
                 <div key={edu.id} className="resume-education-card">
-                  {edu.content && (
-                    <div className="resume-education-content">
-                      {edu.content.split('\n').map((line, i) => (
-                        <p key={i}>{line}</p>
-                      ))}
+                  <div className="resume-education-header">
+                    <h3 className="resume-education-school">{edu.school_name}</h3>
+                    <span className="resume-education-degree">{edu.degree}</span>
+                    <span className="resume-education-major">{edu.major}</span>
+                    {edu.gpa && (
+                      <span className="resume-education-gpa">GPA: {edu.gpa}</span>
+                    )}
+                    <span className="resume-education-period">
+                      {edu.start_date} - {edu.end_date || '至今'}
+                    </span>
+                  </div>
+                  {edu.description && (
+                    <div className="resume-education-details">
+                      <div className="resume-education-description">
+                        {edu.description.split('\n').map((line, i) => (
+                          <p key={i}>{line}</p>
+                        ))}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -205,20 +219,25 @@ const Resume = () => {
               </svg>
               工作经历
             </h2>
-            <div className="resume-timeline">
+            <div className="resume-experience-list">
               {resume.experience?.map((exp) => (
-                <div key={exp.id} className="resume-timeline-item">
-                  <div className="resume-timeline-marker"></div>
-                  <div className="resume-timeline-content">
-                    <h3 className="resume-timeline-title">{exp.title}</h3>
-                    {exp.content && (
-                      <div className="resume-timeline-description">
-                        {exp.content.split('\n').map((line, i) => (
+                <div key={exp.id} className="resume-experience-card">
+                  <div className="resume-experience-header">
+                    <h3 className="resume-experience-company">{exp.company}</h3>
+                    <span className="resume-experience-position">{exp.position}</span>
+                    <span className="resume-experience-period">
+                      {exp.start_date} - {exp.end_date || '至今'}
+                    </span>
+                  </div>
+                  {exp.description && (
+                    <div className="resume-experience-details">
+                      <div className="resume-experience-description">
+                        {exp.description.split('\n').map((line, i) => (
                           <p key={i}>{line}</p>
                         ))}
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

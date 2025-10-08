@@ -122,9 +122,24 @@ export interface ResumeSection {
   updated_at: string;
 }
 
+export interface Education {
+  id: number;
+  school_name: string;
+  degree: string;
+  major: string;
+  start_date: string;
+  end_date?: string;
+  gpa?: string;
+  description?: string;
+  order_index: number;
+  is_visible: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface ResumeData {
   personal_info?: PersonalInfo;
-  education: ResumeSection[];
+  education: Education[];
   experience: ResumeSection[];
   skills: ResumeSection[];
   projects: ResumeSection[];

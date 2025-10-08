@@ -235,94 +235,83 @@
   color: #667eea;
 }
 
-/* Timeline */
-.resume-timeline {
+/* Experience */
+.resume-experience-list {
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
-  position: relative;
+  gap: 1.5rem;
 }
 
-.resume-timeline::before {
-  content: '';
-  position: absolute;
-  left: 15px;
-  top: 8px;
-  bottom: 8px;
-  width: 3px;
-  background: linear-gradient(to bottom, #667eea, #764ba2);
-  border-radius: 2px;
-}
-
-.resume-timeline-item {
-  position: relative;
-  padding-left: 3.5rem;
-  display: flex;
-  align-items: flex-start;
-}
-
-.resume-timeline-marker {
-  position: absolute;
-  left: 6px;
-  top: 8px;
-  width: 18px;
-  height: 18px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 50%;
-  border: 4px solid white;
-  box-shadow: 0 3px 12px rgba(102, 126, 234, 0.4);
-  z-index: 2;
-}
-
-.resume-timeline-content {
-  flex: 1;
-  background: #f8fafc;
-  padding: 1.5rem;
-  border-radius: 12px;
+.resume-experience-card {
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
   border: 1px solid #e2e8f0;
-  position: relative;
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.resume-timeline-content::before {
-  content: '';
-  position: absolute;
-  left: -8px;
-  top: 20px;
-  width: 0;
-  height: 0;
-  border-top: 8px solid transparent;
-  border-bottom: 8px solid transparent;
-  border-right: 8px solid #f8fafc;
+.resume-experience-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border-color: #cbd5e0;
 }
 
-.resume-timeline-title {
-  font-size: 1.3rem;
+.resume-experience-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.resume-experience-company {
+  font-size: 1.25rem;
   font-weight: 600;
   color: #2d3748;
-  margin: 0 0 0.75rem;
+  margin: 0;
+  flex-shrink: 0;
 }
 
-.resume-timeline-description {
+.resume-experience-position {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #4a5568;
+  flex-shrink: 0;
+}
+
+.resume-experience-period {
+  font-size: 0.9rem;
+  color: #718096;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.resume-experience-details {
+  margin-top: 1rem;
+}
+
+.resume-experience-description {
   color: #4a5568;
   line-height: 1.6;
 }
 
-.resume-timeline-description p {
+.resume-experience-description p {
   margin: 0.5rem 0;
 }
 
-.resume-timeline-description p:first-child {
+.resume-experience-description p:first-child {
   margin-top: 0;
 }
 
-.resume-timeline-description p:last-child {
+.resume-experience-description p:last-child {
   margin-bottom: 0;
 }
 
 /* Education Main Content */
 .resume-education-main {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
 }
 
@@ -361,42 +350,73 @@
 .resume-education-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 1rem;
   margin-bottom: 1rem;
+  flex-wrap: wrap;
 }
 
-.resume-education-card .resume-education-title {
+.resume-education-school {
   font-size: 1.2rem;
-  font-weight: 600;
+  font-weight: 700;
   color: #2d3748;
   margin: 0;
+  flex-shrink: 0;
 }
 
-.resume-education-icon {
-  width: 40px;
-  height: 40px;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-}
-
-.resume-education-content {
+.resume-education-degree {
+  font-size: 1rem;
+  font-weight: 600;
   color: #4a5568;
-  line-height: 1.5;
+  margin: 0;
+  flex-shrink: 0;
 }
 
-.resume-education-content p {
-  margin: 0.5rem 0;
+.resume-education-major {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #6b7280;
+  margin: 0;
+  flex-shrink: 0;
 }
 
-.resume-education-content p:first-child {
+.resume-education-gpa {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #6b7280;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.resume-education-period {
+  font-size: 0.9rem;
+  color: #10b981;
+  font-weight: 600;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  white-space: nowrap;
+  margin-left: auto;
+}
+
+.resume-education-details {
+  color: #4a5568;
+  line-height: 1.6;
+}
+
+.resume-education-description {
+  margin-top: 0.75rem;
+}
+
+.resume-education-description p {
+  margin: 0.4rem 0;
+  color: #4a5568;
+}
+
+.resume-education-description p:first-child {
   margin-top: 0;
 }
 
-.resume-education-content p:last-child {
+.resume-education-description p:last-child {
   margin-bottom: 0;
 }
 
@@ -550,8 +570,7 @@
     order: 1;
   }
   
-  .resume-projects-grid,
-  .resume-education-main {
+  .resume-projects-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -584,18 +603,15 @@
     font-size: 1.5rem;
   }
   
-  .resume-timeline-item {
-    padding-left: 3rem;
+  .resume-experience-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
   }
   
-  .resume-timeline-marker {
-    left: 5px;
-    width: 16px;
-    height: 16px;
-  }
-  
-  .resume-timeline::before {
-    left: 13px;
+  .resume-experience-period {
+    margin-left: 0;
+    order: -1;
   }
 }
 
@@ -616,18 +632,32 @@
     padding: 1.25rem;
   }
   
-  .resume-timeline-item {
-    padding-left: 2.5rem;
+  .resume-experience-card {
+    padding: 1rem;
   }
   
-  .resume-projects-grid,
-  .resume-education-main {
+  .resume-experience-company {
+    font-size: 1.1rem;
+  }
+  
+  .resume-projects-grid {
     grid-template-columns: 1fr;
   }
   
   .resume-project-card,
   .resume-education-card {
     padding: 1.25rem;
+  }
+  
+  .resume-education-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .resume-education-period {
+    margin-left: 0;
+    align-self: flex-end;
   }
 }
 
